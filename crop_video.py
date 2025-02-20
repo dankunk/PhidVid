@@ -7,7 +7,7 @@ import cv2
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Crop a video by selecting an ROI from the first frame."
+        description="Crop a video by selecting an ROI from the first frame (lossless cropping)."
     )
     parser.add_argument("input_path", help="Path to the input video.")
     parser.add_argument("output_path", help="Path for the cropped output video.")
@@ -34,7 +34,7 @@ def main():
         print("Error: Could not read the first frame from the video.")
         return
 
-    # 3) Scale down frame if it's larger than MAX_DIM in width or height
+    # 3) Scale down frame if it's larger than MAX_DIM (to fit on screen)
     MAX_DIM = 1080  # Adjust based on your monitor or preference
     orig_height, orig_width = frame.shape[:2]
 
@@ -72,22 +72,21 @@ def main():
 
     print(f"Final ROI => x:{x}, y:{y}, w:{w}, h:{h}")
 
-    # 7) Construct FFmpeg command to crop with NVIDIA GPU (NVENC)
+    # 7) Construct FFmpeg command to crop losslessly with NVIDIA GPU (NVENC)
+    #
+    #  - 'crop' filter for the new region
+    #  - '-c:v h264_nvenc -qp 0' attempts a lossless encode in H.264 using NVENC
+    #  - '-preset hq' or 'losslesshp' can be used for high-quality/lossless modes
+    #  - '-c:a copy' to copy any audio track without re-encoding
     cmd = [
         "ffmpeg",
-        # Use CUDA for hardware acceleration (decoding) if supported
         "-hwaccel", "cuda",
         "-i", input_path,
-        # Crop filter: crop=w:h:x:y
         "-filter:v", f"crop={w}:{h}:{x}:{y}",
-        # Copy audio without re-encoding
         "-c:a", "copy",
-        # Encode video using GPU-based h264_nvenc
         "-c:v", "h264_nvenc",
-        # CRF/preset can be tuned as desired
-        "-crf", "23",
-        "-preset", "fast",
-        # Overwrite output if it exists
+        "-qp", "0",         # Lossless quantization
+        "-preset", "hq",    # High-quality preset; 'losslesshp' may also work
         "-y",
         output_path
     ]
@@ -95,7 +94,7 @@ def main():
     print("Running FFmpeg command:\n", " ".join(cmd))
     try:
         subprocess.run(cmd, check=True)
-        print("Cropping completed successfully.")
+        print("Cropping completed successfully (lossless).")
         print(f"Cropped file saved at: {output_path}")
     except subprocess.CalledProcessError as e:
         print(f"Error: FFmpeg failed with return code {e.returncode}")
