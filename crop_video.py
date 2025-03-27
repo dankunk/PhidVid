@@ -84,8 +84,7 @@ def main():
         "-i", input_path,
         "-filter:v", f"crop={w}:{h}:{x}:{y}",
         "-c:a", "copy",
-        "-c:v", "h264_nvenc",
-        "-qp", "0",         # Lossless quantization
+        "-c:v", "hevc_nvenc",  # Lossless quantization
         "-preset", "hq",    # High-quality preset; 'losslesshp' may also work
         "-y",
         output_path
