@@ -1,0 +1,4 @@
+# This is the ignore for phidvid, everything here wont be committed or pushed to github.
+
+# Ignore any large files in these directories
+videos/
