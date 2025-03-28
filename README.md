@@ -1,5 +1,5 @@
 # PhidVid
-![logo](https://github.com/dankunk/PhidVid/blob/main/phidVid.png)
+![logo](https://github.com/dankunk/PhidVid/blob/main/phidvid_logo.png)
 PhidVid is a set of Python tools for pre-processing aphid behavioral videos. It leverages NVIDIA GPU acceleration via FFmpeg's NVENC and features interactive ROI selection through OpenCV, enabling efficient cropping, re-encoding, filtering, inversion, and more. Designed to streamline video analysis workflows, PhidVid empowers researchers to rapidly process large datasets with precision and ease.
 
 ---
