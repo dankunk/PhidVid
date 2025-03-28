@@ -79,16 +79,18 @@ def main():
     #  - '-preset hq' or 'losslesshp' can be used for high-quality/lossless modes
     #  - '-c:a copy' to copy any audio track without re-encoding
     cmd = [
-        "ffmpeg",
-        "-hwaccel", "cuda",
-        "-i", input_path,
-        "-filter:v", f"crop={w}:{h}:{x}:{y}",
-        "-c:a", "copy",
-        "-c:v", "hevc_nvenc",  # Lossless quantization
-        "-preset", "hq",    # High-quality preset; 'losslesshp' may also work
-        "-y",
-        output_path
-    ]
+    "ffmpeg",
+    "-hwaccel", "cuda",
+    "-i", input_path,
+    "-filter:v", f"crop={w}:{h}:{x}:{y},negate",
+    "-an",                    # Disable audio (if none is present)
+    "-c:v", "hevc_nvenc",
+    "-rc", "constqp",           # Use constant QP mode
+    "-qp", "20",            # Set a fixed QP value (adjust as needed)
+    "-preset", "slow",    # 
+    "-y",
+    output_path
+]
 
     print("Running FFmpeg command:\n", " ".join(cmd))
     try:

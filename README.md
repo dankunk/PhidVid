@@ -1,6 +1,6 @@
 # PhidVid
 
-PhidVid provides a simple script to crop aphid behavior videos via an interactive, draggable ROI (Region of Interest) selection. It uses OpenCV to display the first frame of a video and FFmpeg with NVIDIA GPU acceleration (NVENC) to process the crop.
+PhidVid is a set of Python tools for pre-processing aphid behavioral videos. It leverages NVIDIA GPU acceleration via FFmpeg's NVENC and features interactive ROI selection through OpenCV, enabling efficient cropping, re-encoding, filtering, inversion, and more. Designed to streamline video analysis workflows, PhidVid empowers researchers to rapidly process large datasets with precision and ease.
 
 ---
 
