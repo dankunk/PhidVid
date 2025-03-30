@@ -2,3 +2,6 @@
 
 # Ignore any large files in these directories
 videos/
+
+# Ignore local vscode settings
+.vscode/
