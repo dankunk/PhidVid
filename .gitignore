@@ -5,3 +5,6 @@ videos/
 
 # Ignore local vscode settings
 .vscode/
+
+# ignore any model weights
+yolov8n.pt
