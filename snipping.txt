@@ -1,0 +1,10 @@
+#
+#start#44:24
+#end#51:36
+# Simple cropping one liners for grabbing a ~ 6 min video and negating it
+ffmpeg -hwaccel cuda -ss 00:44:24 -t 00:07:12 -i .\Camera0_20250328_161310_216000-431999.mp4 -vf negate -c:v hevc_nvenc -rc constqp -qp 20 -preset p4 ..\honeydew.mp4
+
+# grab regions from the ipynb file
+742 1089 227 212
+ffmpeg -hwaccel cuda -ss 00:44:24 -t 00:07:12 -i .\Camera0_20250328_161310_216000-431999.mp4 -vf "crop=742:1089:227:212,scale=2048:1536,negate" -c:v hevc_nvenc -rc constqp -qp 10 -preset p4 ..\honeydew_crop.mp4
+
